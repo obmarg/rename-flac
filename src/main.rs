@@ -26,6 +26,10 @@ fn main() {
             Some((artist, title)) => {
                 let mut rename = filename.clone();
                 rename.set_file_name(format!("{} - {}.flac", artist, title));
+                if filename == rename {
+                    continue;
+                }
+
                 println!(
                     "Renaming {} to {}",
                     filename.file_name().unwrap().to_string_lossy(),
