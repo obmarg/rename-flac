@@ -1,5 +1,5 @@
-use std::{ffi::OsStr, path::PathBuf};
 use flac::metadata::get_vorbis_comment;
+use std::{ffi::OsStr, path::PathBuf};
 use structopt::StructOpt;
 
 #[derive(StructOpt)]
@@ -26,11 +26,18 @@ fn main() {
             Some((artist, title)) => {
                 let mut rename = filename.clone();
                 rename.set_file_name(format!("{} - {}.flac", artist, title));
-                println!("Renaming {} to {}", filename.to_string_lossy(), rename.to_string_lossy());
+                println!(
+                    "Renaming {} to {}",
+                    filename.file_name().unwrap().to_string_lossy(),
+                    rename.file_name().unwrap().to_string_lossy()
+                );
                 std::fs::rename(filename, rename).unwrap();
-            },
+            }
             None => {
-                println!("{} did not have an artist or title", filename.to_string_lossy());
+                println!(
+                    "{} did not have an artist or title",
+                    filename.to_string_lossy()
+                );
             }
         }
     }
